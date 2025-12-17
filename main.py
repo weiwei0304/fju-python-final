@@ -479,7 +479,7 @@ st.markdown(
     .st-key-help_icon,
     [data-testid="stElementContainer"].st-key-help_icon {
         position: fixed !important;
-        bottom: 20px !important;
+        bottom: 60px !important;
         right: 20px !important;
         z-index: 1000 !important;
         width: 50px !important;
