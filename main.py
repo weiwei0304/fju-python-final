@@ -244,7 +244,7 @@ st.markdown(
     }
     
     .step-wrapper .stButton > button {
-        background-color: #8b6f47;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 50%, #3d8b40 100%);
         color: #ffffff;
         border: none;
         border-radius: 10px;
@@ -253,17 +253,19 @@ st.markdown(
         font-size: 1.05rem;
         width: 100%;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        position: relative;
+        overflow: hidden;
     }
     
     .step-wrapper .stButton > button:hover {
-        background-color: #7a5f3a;
-        box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3);
+        background: linear-gradient(135deg, #45a049 0%, #3d8b40 50%, #357a38 100%);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
         transform: translateY(-1px);
     }
     
     .stButton > button {
-        background-color: #8b6f47;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 50%, #3d8b40 100%);
         color: #ffffff;
         border: none;
         border-radius: 10px;
@@ -271,22 +273,24 @@ st.markdown(
         font-weight: 500;
         font-size: 1.05rem;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        position: relative;
+        overflow: hidden;
     }
     
     .stButton > button:hover {
-        background-color: #7a5f3a;
-        box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3);
+        background: linear-gradient(135deg, #45a049 0%, #3d8b40 50%, #357a38 100%);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
         transform: translateY(-2px);
     }
     
     .stButton > button:active {
         transform: translateY(0);
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
     }
     
     .element-container:has(.step-wrapper-header) .stButton > button {
-        background-color: #8b6f47;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 50%, #3d8b40 100%);
         color: #ffffff;
         border: none;
         border-radius: 10px;
@@ -294,23 +298,25 @@ st.markdown(
         font-weight: 500;
         font-size: 1.05rem;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+        position: relative;
+        overflow: hidden;
     }
     
     .element-container:has(.step-wrapper-header) .stButton > button:hover {
-        background-color: #7a5f3a;
-        box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3);
+        background: linear-gradient(135deg, #45a049 0%, #3d8b40 50%, #357a38 100%);
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
         transform: translateY(-2px);
     }
     
     .element-container:has(.step-wrapper-header) .stButton > button:active {
         transform: translateY(0);
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
     }
     
-    /* Primary 按鈕樣式 - 棕色系（只針對 Streamlit 的按鈕，排除日曆選擇器） */
+    /* Primary 按鈕樣式 */
     .stButton > button[data-testid="stBaseButton-primary"] {
-        background-color: #8b6f47 !important;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 50%, #3d8b40 100%) !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 10px !important;
@@ -318,23 +324,40 @@ st.markdown(
         font-weight: 500 !important;
         font-size: 1.05rem !important;
         transition: all 0.3s ease !important;
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .stButton > button[data-testid="stBaseButton-primary"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
     }
     
     .stButton > button[data-testid="stBaseButton-primary"]:hover {
-        background-color: #7a5f3a !important;
-        box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3) !important;
+        background: linear-gradient(135deg, #45a049 0%, #3d8b40 50%, #357a38 100%) !important;
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4) !important;
         transform: translateY(-2px) !important;
+    }
+    
+    .stButton > button[data-testid="stBaseButton-primary"]:hover::before {
+        left: 100%;
     }
     
     .stButton > button[data-testid="stBaseButton-primary"]:active {
         transform: translateY(0) !important;
-        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3) !important;
     }
     
-    /* Secondary 按鈕樣式 - 灰色系（只針對 Streamlit 的 secondary 按鈕） */
+    /* Secondary 按鈕樣式 */
     .stButton > button[data-testid="stBaseButton-secondary"] {
-        background-color: #6c757d !important;
+        background: linear-gradient(135deg, #dc3545 0%, #c82333 50%, #bd2130 100%) !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 10px !important;
@@ -342,18 +365,35 @@ st.markdown(
         font-weight: 500 !important;
         font-size: 1.05rem !important;
         transition: all 0.3s ease !important;
-        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }
+    
+    .stButton > button[data-testid="stBaseButton-secondary"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
     }
     
     .stButton > button[data-testid="stBaseButton-secondary"]:hover {
-        background-color: #5a6268 !important;
-        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
+        background: linear-gradient(135deg, #c82333 0%, #bd2130 50%, #a71e2a 100%) !important;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4) !important;
         transform: translateY(-2px) !important;
+    }
+    
+    .stButton > button[data-testid="stBaseButton-secondary"]:hover::before {
+        left: 100%;
     }
     
     .stButton > button[data-testid="stBaseButton-secondary"]:active {
         transform: translateY(0) !important;
-        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
+        box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3) !important;
     }
     
     .step-wrapper .stSuccess {
@@ -549,14 +589,14 @@ st.markdown(
         height: 50px !important;
         min-width: 50px !important;
         max-width: 50px !important;
-        background-color: #8b6f47 !important;
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 50%, #3d8b40 100%) !important;
         color: white !important;
         border-radius: 50% !important;
         border: none !important;
         font-size: 24px !important;
         font-weight: bold !important;
         cursor: pointer !important;
-        box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3) !important;
+        box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
         transition: all 0.3s ease !important;
         padding: 0 !important;
         margin: 0 !important;
@@ -566,9 +606,9 @@ st.markdown(
     }
     
     .st-key-help_icon button:hover {
-        background-color: #7a5f3a !important;
+        background: linear-gradient(135deg, #45a049 0%, #3d8b40 50%, #357a38 100%) !important;
         transform: scale(1.1) !important;
-        box-shadow: 0 6px 16px rgba(139, 111, 71, 0.4) !important;
+        box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4) !important;
     }
     
     .st-key-help_icon button:active {
@@ -738,7 +778,7 @@ elif st.session_state.step == 2:
             '<div class="step-wrapper-header">把自己還給自己</div>',
             unsafe_allow_html=True,
         )
-        start_date = st.date_input("請選擇到職日", value=None)
+        start_date = st.date_input("請選擇目前工作到職日", value=None)
 
     if start_date:
         st.session_state.start_date = start_date
@@ -779,18 +819,42 @@ elif st.session_state.step == 3:
                     f"您的到職日 {st.session_state.start_date.strftime('%Y-%m-%d')} 尚未到來，到職後即可提出離職（預告期為 0 天）"
                 )
             else:
+                # 計算預告天數
+                work_months = calculator._calculate_work_months(st.session_state.start_date)
+                notice_days = calculator._get_notice_days(work_months)
                 st.success(
-                    f"最早可以提離職的時間是: {effective_date.strftime('%Y-%m-%d')}"
+                    f"**最早可以提離職的時間**：{effective_date.strftime('%Y-%m-%d')}  \n"
+                    f"**需要提前預告天數**：{notice_days} 天"
                 )
 
+            # 三個按鈕：重返測驗、重計日期、結束視窗
             col1, col2, col3 = st.columns([1, 1, 1])
+            with col1:
+                if st.button("重返測驗", key="back_to_quiz_1", use_container_width=True, type="primary"):
+                    st.session_state.step = 0
+                    st.session_state.quiz_completed = False
+                    st.session_state.start_date = None
+                    st.session_state.has_quit_date = None
+                    st.session_state.quit_date = None
+                    # 清除問卷相關的 session_state
+                    if "quiz_q1_radio" in st.session_state:
+                        del st.session_state.quiz_q1_radio
+                    if "quiz_q2_radio" in st.session_state:
+                        del st.session_state.quiz_q2_radio
+                    if "quiz_q3_radio" in st.session_state:
+                        del st.session_state.quiz_q3_radio
+                    st.rerun()
             with col2:
-                if st.button("上一步", key="back_1", use_container_width=True):
+                if st.button("重計日期", key="recalculate_date_1", use_container_width=True, type="primary"):
                     st.session_state.step = 2
                     st.session_state.start_date = None
                     st.session_state.has_quit_date = None
                     st.session_state.quit_date = None
                     st.rerun()
+                with col3:
+                    if st.button("結束視窗", key="end_1", use_container_width=True, type="secondary"):
+                        st.session_state.step = 4
+                        st.rerun()
 
         elif has_quit_date == "是":
             quit_date = st.date_input("請選擇離職日", value=None)
@@ -822,32 +886,78 @@ elif st.session_state.step == 3:
                 else:
                     st.error("已經超過今日日期，請重新選擇離職日期")
 
+                # 三個按鈕：重返測驗、重計日期、結束視窗
                 col1, col2, col3 = st.columns([1, 1, 1])
+                with col1:
+                    if st.button("重返測驗", key="back_to_quiz_2", use_container_width=True, type="primary"):
+                        st.session_state.step = 0
+                        st.session_state.quiz_completed = False
+                        st.session_state.start_date = None
+                        st.session_state.has_quit_date = None
+                        st.session_state.quit_date = None
+                        # 清除問卷相關的 session_state
+                        if "quiz_q1_radio" in st.session_state:
+                            del st.session_state.quiz_q1_radio
+                        if "quiz_q2_radio" in st.session_state:
+                            del st.session_state.quiz_q2_radio
+                        if "quiz_q3_radio" in st.session_state:
+                            del st.session_state.quiz_q3_radio
+                        st.rerun()
                 with col2:
-                    if st.button("上一步", key="back_2", use_container_width=True):
+                    if st.button("重計日期", key="recalculate_date_2", use_container_width=True, type="primary"):
                         st.session_state.step = 2
                         st.session_state.start_date = None
                         st.session_state.has_quit_date = None
                         st.session_state.quit_date = None
                         st.rerun()
+                with col3:
+                    if st.button("結束視窗", key="end_2", use_container_width=True, type="secondary"):
+                        st.session_state.step = 4
+                        st.rerun()
 
-help_clicked = st.button("!", key="help_icon", help="點擊查看通知天數說明")
+# 結束視窗頁面 (step 4)
+elif st.session_state.step == 4:
+    st.title("")
+    
+    with st.container():
+        st.markdown(
+            '<div class="step-wrapper-header">感謝使用</div>',
+            unsafe_allow_html=True,
+        )
+        st.markdown(
+            """
+            <div style="text-align: center; padding: 80px 20px; font-size: 3rem; color: #5d4e37; font-weight: 300; letter-spacing: 4px; line-height: 1.5;">
+                To be continued...
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col2:
+            if st.button("返回", key="back_from_end", use_container_width=True, type="primary"):
+                st.session_state.step = 3
+                st.rerun()
 
-if help_clicked:
-    st.session_state.show_help = not st.session_state.get("show_help", False)
 
-if st.session_state.get("show_help", False):
-    st.markdown(
-        """
-    <div class="help-popup" style="display: block;">
-        <h3>預告天數說明</h3>
-        <ul>
-            <li><strong>工作未滿 3 個月</strong>：無需預告（0 天）</li>
-            <li><strong>工作 3 個月以上，未滿 1 年</strong>：需提前 10 天預告</li>
-            <li><strong>工作 1 年以上，未滿 3 年</strong>：需提前 20 天預告</li>
-            <li><strong>工作 3 年以上</strong>：需提前 30 天預告</li>
-        </ul>
-    </div>
-    """,
-        unsafe_allow_html=True,
-    )
+if st.session_state.step != 4:
+    help_clicked = st.button("!", key="help_icon", help="點擊查看通知天數說明")
+
+    if help_clicked:
+        st.session_state.show_help = not st.session_state.get("show_help", False)
+
+    if st.session_state.get("show_help", False):
+        st.markdown(
+            """
+        <div class="help-popup" style="display: block;">
+            <h3>預告天數說明</h3>
+            <ul>
+                <li><strong>工作未滿 3 個月</strong>：無需預告（0 天）</li>
+                <li><strong>工作 3 個月以上，未滿 1 年</strong>：需提前 10 天預告</li>
+                <li><strong>工作 1 年以上，未滿 3 年</strong>：需提前 20 天預告</li>
+                <li><strong>工作 3 年以上</strong>：需提前 30 天預告</li>
+            </ul>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
