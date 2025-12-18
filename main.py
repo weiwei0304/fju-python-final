@@ -1,5 +1,6 @@
 import streamlit as st
 from resignation_calculator import ResignationCalculator
+from quiz import render_quiz_ui, calculate_quiz_score_from_answers
 
 
 st.markdown(
@@ -307,6 +308,57 @@ st.markdown(
         box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
     }
     
+    /* Primary 按鈕樣式 - 棕色系（確保 primary 按鈕保持棕色） */
+    button[data-testid="stBaseButton-primary"],
+    button:not([data-testid="stBaseButton-secondary"]) {
+        background-color: #8b6f47 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 14px 32px !important;
+        font-weight: 500 !important;
+        font-size: 1.05rem !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2) !important;
+    }
+    
+    button[data-testid="stBaseButton-primary"]:hover,
+    button:not([data-testid="stBaseButton-secondary"]):hover {
+        background-color: #7a5f3a !important;
+        box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3) !important;
+        transform: translateY(-2px) !important;
+    }
+    
+    button[data-testid="stBaseButton-primary"]:active,
+    button:not([data-testid="stBaseButton-secondary"]):active {
+        transform: translateY(0) !important;
+        box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2) !important;
+    }
+    
+    /* Secondary 按鈕樣式 - 灰色系（只針對 secondary 按鈕） */
+    button[data-testid="stBaseButton-secondary"] {
+        background-color: #6c757d !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 14px 32px !important;
+        font-weight: 500 !important;
+        font-size: 1.05rem !important;
+        transition: all 0.3s ease !important;
+        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
+    }
+    
+    button[data-testid="stBaseButton-secondary"]:hover {
+        background-color: #5a6268 !important;
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
+        transform: translateY(-2px) !important;
+    }
+    
+    button[data-testid="stBaseButton-secondary"]:active {
+        transform: translateY(0) !important;
+        box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
+    }
+    
     .step-wrapper .stSuccess {
         background-color: #f0f7f4;
         border-left: 4px solid #6b9f78;
@@ -586,15 +638,117 @@ st.markdown(
 
 
 if "step" not in st.session_state:
-    st.session_state.step = 1
+    st.session_state.step = 0
+    st.session_state.quiz_score = 0
+    st.session_state.quiz_completed = False
     st.session_state.start_date = None
     st.session_state.has_quit_date = None
     st.session_state.quit_date = None
     st.session_state.show_help = False
+    st.session_state.quiz_validation_error = False
 
-st.title("轉身日曆")
+def load_text_file(filename):
+    """載入文字檔案內容"""
+    with open(filename, 'r', encoding='utf-8') as f:
+        return f.read()
 
-if st.session_state.step == 1:
+# 問卷測驗步驟 (step 0)
+if st.session_state.step == 0:
+    st.title("我該離職嗎？")
+    
+    with st.container():
+        st.markdown(
+            '<div class="step-wrapper-header">先了解自己的狀態</div>',
+            unsafe_allow_html=True,
+        )
+        
+        # 使用 import 的函數渲染問卷 UI
+        q1, q2, q3 = render_quiz_ui()
+        
+        st.markdown("---")
+        
+        # 檢查是否所有問題都已回答
+        all_answered = q1 is not None and q2 is not None and q3 is not None
+        
+        # 如果未全部回答，顯示提示
+        if not all_answered or st.session_state.quiz_validation_error:
+            st.error("⚠️ 請回答所有問題後才能完成測驗")
+            st.session_state.quiz_validation_error = False  # 重置錯誤狀態
+        
+        # 提交按鈕
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col2:
+            if st.button("完成測驗", key="submit_quiz", use_container_width=True):
+                # 驗證是否所有問題都已回答
+                if all_answered:
+                    # 使用 import 的函數計算分數
+                    st.session_state.quiz_score = calculate_quiz_score_from_answers(q1, q2, q3)
+                    st.session_state.quiz_completed = True
+                    st.session_state.quiz_validation_error = False
+                    st.session_state.step = 1
+                    st.rerun()
+                else:
+                    # 設置錯誤狀態，下次渲染時顯示錯誤
+                    st.session_state.quiz_validation_error = True
+                    st.rerun()
+
+# 問卷結果顯示步驟 (step 1)
+elif st.session_state.step == 1:
+    st.title("測驗結果")
+    
+    with st.container():
+        st.markdown(
+            '<div class="step-wrapper-header">了解自己的狀態</div>',
+            unsafe_allow_html=True,
+        )
+        
+        if st.session_state.quiz_score >= 2:
+            st.markdown("### 別再撐了，離職吧！")
+            result_text = load_text_file('quitYourJob.txt')
+            # 將文字檔案的換行轉換為 HTML 換行
+            result_text_html = result_text.replace('\n', '<br>')
+            st.markdown(
+                f'<div style="background-color: #f0f7f4; border-left: 4px solid #6b9f78; color: #2d5a3d; border-radius: 8px; padding: 20px 24px; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">{result_text_html}</div>',
+                unsafe_allow_html=True
+            )
+        else:
+            st.markdown("### 你正在遭遇轉型瓶頸，或許可以再多考慮一下～")
+            result_text = load_text_file('betterToStay.txt')
+            # 將文字檔案的換行轉換為 HTML 換行
+            result_text_html = result_text.replace('\n', '<br>')
+            st.markdown(
+                f'<div style="background-color: #f0f7ff; border-left: 4px solid #6b9fcf; color: #2d4a5a; border-radius: 8px; padding: 20px 24px; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">{result_text_html}</div>',
+                unsafe_allow_html=True
+            )
+        
+        st.markdown("---")
+        st.markdown("### 接下來，讓我們幫你計算離職日期")
+        
+        # 並排顯示兩個按鈕
+        col1, col2 = st.columns([1, 1])
+        with col1:
+            # Primary 按鈕（棕色）- 默認或明確指定 type="primary"
+            if st.button("開始計算離職日期", key="go_to_calculator", use_container_width=True, type="primary"):
+                st.session_state.step = 2
+                st.rerun()
+        with col2:
+            # Secondary 按鈕（灰色）
+            if st.button("重新測驗", key="retake_quiz", use_container_width=True, type="secondary"):
+                st.session_state.step = 0
+                st.session_state.quiz_completed = False
+                # 清除問卷相關的 session_state（Streamlit 會自動管理 widget 的狀態）
+                if "quiz_q1_radio" in st.session_state:
+                    del st.session_state.quiz_q1_radio
+                if "quiz_q2_radio" in st.session_state:
+                    del st.session_state.quiz_q2_radio
+                if "quiz_q3_radio" in st.session_state:
+                    del st.session_state.quiz_q3_radio
+                st.rerun()
+
+# 到職日選擇步驟 (原本的 step 1，現在是 step 2)
+elif st.session_state.step == 2:
+    st.title("轉身日曆")
+    
     with st.container():
         st.markdown(
             '<div class="step-wrapper-header">把自己還給自己</div>',
@@ -604,10 +758,13 @@ if st.session_state.step == 1:
 
     if start_date:
         st.session_state.start_date = start_date
-        st.session_state.step = 2
+        st.session_state.step = 3
         st.rerun()
 
-elif st.session_state.step == 2:
+# 離職日期選擇步驟 (原本的 step 2，現在是 step 3)
+elif st.session_state.step == 3:
+    st.title("轉身日曆")
+    
     with st.container():
         st.markdown(
             '<div class="step-wrapper-header">把自己還給自己</div>',
@@ -646,7 +803,7 @@ elif st.session_state.step == 2:
             col1, col2, col3 = st.columns([1, 1, 1])
             with col2:
                 if st.button("上一步", key="back_1", use_container_width=True):
-                    st.session_state.step = 1
+                    st.session_state.step = 2
                     st.session_state.start_date = None
                     st.session_state.has_quit_date = None
                     st.session_state.quit_date = None
@@ -685,7 +842,7 @@ elif st.session_state.step == 2:
                 col1, col2, col3 = st.columns([1, 1, 1])
                 with col2:
                     if st.button("上一步", key="back_2", use_container_width=True):
-                        st.session_state.step = 1
+                        st.session_state.step = 2
                         st.session_state.start_date = None
                         st.session_state.has_quit_date = None
                         st.session_state.quit_date = None
