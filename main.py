@@ -793,7 +793,7 @@ elif st.session_state.step == 3:
                     st.rerun()
 
         elif has_quit_date == "是":
-            quit_date = st.date_input("請選擇到離職日", value=None)
+            quit_date = st.date_input("請選擇離職日", value=None)
 
             if quit_date:
                 calculator = ResignationCalculator()
