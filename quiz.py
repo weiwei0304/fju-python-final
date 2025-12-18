@@ -1,5 +1,4 @@
 def tryQuiz():
-    """原始的命令列版本問卷（保留用於 start.py）"""
     score = 0
     inputQ1 = input('Q1. 你想離職的念頭有多久?\n1.至少數個月以上\n2.最近開始，瘋狂想辭職\n')
     if(inputQ1 == '1'):
@@ -52,7 +51,6 @@ def render_quiz_ui():
     return q1, q2, q3
 
 def calculate_quiz_score_from_answers(q1, q2, q3):
-    """根據答案計算問卷分數"""
     score = 0
     if q1 and q1[0] == "1":
         score += 1

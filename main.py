@@ -645,11 +645,9 @@ if "step" not in st.session_state:
     st.session_state.quiz_validation_error = False
 
 def load_text_file(filename):
-    """載入文字檔案內容"""
     with open(filename, 'r', encoding='utf-8') as f:
         return f.read()
 
-# 問卷測驗步驟 (step 0)
 if st.session_state.step == 0:
     st.title("我該離職嗎？")
     
@@ -659,15 +657,13 @@ if st.session_state.step == 0:
             unsafe_allow_html=True,
         )
         
-        # 使用 import 的函數渲染問卷 UI
         q1, q2, q3 = render_quiz_ui()
         
         st.markdown("---")
         
-        # 檢查是否所有問題都已回答
         all_answered = q1 is not None and q2 is not None and q3 is not None
         
-        # 如果未全部回答，顯示提示
+        # 提示
         if not all_answered or st.session_state.quiz_validation_error:
             st.error("⚠️ 請回答所有問題後才能完成測驗")
             st.session_state.quiz_validation_error = False  # 重置錯誤狀態
@@ -678,18 +674,16 @@ if st.session_state.step == 0:
             if st.button("完成測驗", key="submit_quiz", use_container_width=True):
                 # 驗證是否所有問題都已回答
                 if all_answered:
-                    # 使用 import 的函數計算分數
                     st.session_state.quiz_score = calculate_quiz_score_from_answers(q1, q2, q3)
                     st.session_state.quiz_completed = True
                     st.session_state.quiz_validation_error = False
                     st.session_state.step = 1
                     st.rerun()
                 else:
-                    # 設置錯誤狀態，下次渲染時顯示錯誤
+                    
                     st.session_state.quiz_validation_error = True
                     st.rerun()
 
-# 問卷結果顯示步驟 (step 1)
 elif st.session_state.step == 1:
     st.title("測驗結果")
     
@@ -702,7 +696,6 @@ elif st.session_state.step == 1:
         if st.session_state.quiz_score >= 2:
             st.markdown("### 別再撐了，離職吧！")
             result_text = load_text_file('quitYourJob.txt')
-            # 將文字檔案的換行轉換為 HTML 換行
             result_text_html = result_text.replace('\n', '<br>')
             st.markdown(
                 f'<div style="background-color: #f0f7f4; border-left: 4px solid #6b9f78; color: #2d5a3d; border-radius: 8px; padding: 20px 24px; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">{result_text_html}</div>',
@@ -711,7 +704,6 @@ elif st.session_state.step == 1:
         else:
             st.markdown("### 你正在遭遇轉型瓶頸，或許可以再多考慮一下～")
             result_text = load_text_file('betterToStay.txt')
-            # 將文字檔案的換行轉換為 HTML 換行
             result_text_html = result_text.replace('\n', '<br>')
             st.markdown(
                 f'<div style="background-color: #f0f7ff; border-left: 4px solid #6b9fcf; color: #2d4a5a; border-radius: 8px; padding: 20px 24px; margin-top: 16px; font-size: 1.05rem; line-height: 1.8;">{result_text_html}</div>',
@@ -721,19 +713,15 @@ elif st.session_state.step == 1:
         st.markdown("---")
         st.markdown("### 接下來，讓我們幫你計算離職日期")
         
-        # 並排顯示兩個按鈕
         col1, col2 = st.columns([1, 1])
         with col1:
-            # Primary 按鈕（棕色）- 默認或明確指定 type="primary"
             if st.button("開始計算離職日期", key="go_to_calculator", use_container_width=True, type="primary"):
                 st.session_state.step = 2
                 st.rerun()
         with col2:
-            # Secondary 按鈕（灰色）
             if st.button("重新測驗", key="retake_quiz", use_container_width=True, type="secondary"):
                 st.session_state.step = 0
                 st.session_state.quiz_completed = False
-                # 清除問卷相關的 session_state（Streamlit 會自動管理 widget 的狀態）
                 if "quiz_q1_radio" in st.session_state:
                     del st.session_state.quiz_q1_radio
                 if "quiz_q2_radio" in st.session_state:
@@ -742,7 +730,6 @@ elif st.session_state.step == 1:
                     del st.session_state.quiz_q3_radio
                 st.rerun()
 
-# 到職日選擇步驟 (原本的 step 1，現在是 step 2)
 elif st.session_state.step == 2:
     st.title("轉身日曆")
     
@@ -758,7 +745,6 @@ elif st.session_state.step == 2:
         st.session_state.step = 3
         st.rerun()
 
-# 離職日期選擇步驟 (原本的 step 2，現在是 step 3)
 elif st.session_state.step == 3:
     st.title("轉身日曆")
     
@@ -845,14 +831,11 @@ elif st.session_state.step == 3:
                         st.session_state.quit_date = None
                         st.rerun()
 
-# 右下角驚嘆號按鈕 - 放在所有內容之後
 help_clicked = st.button("!", key="help_icon", help="點擊查看通知天數說明")
 
-# 切換顯示說明
 if help_clicked:
     st.session_state.show_help = not st.session_state.get("show_help", False)
 
-# 顯示說明彈窗
 if st.session_state.get("show_help", False):
     st.markdown(
         """
