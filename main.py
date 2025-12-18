@@ -308,9 +308,8 @@ st.markdown(
         box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2);
     }
     
-    /* Primary 按鈕樣式 - 棕色系（確保 primary 按鈕保持棕色） */
-    button[data-testid="stBaseButton-primary"],
-    button:not([data-testid="stBaseButton-secondary"]) {
+    /* Primary 按鈕樣式 - 棕色系（只針對 Streamlit 的按鈕，排除日曆選擇器） */
+    .stButton > button[data-testid="stBaseButton-primary"] {
         background-color: #8b6f47 !important;
         color: #ffffff !important;
         border: none !important;
@@ -322,21 +321,19 @@ st.markdown(
         box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2) !important;
     }
     
-    button[data-testid="stBaseButton-primary"]:hover,
-    button:not([data-testid="stBaseButton-secondary"]):hover {
+    .stButton > button[data-testid="stBaseButton-primary"]:hover {
         background-color: #7a5f3a !important;
         box-shadow: 0 4px 12px rgba(139, 111, 71, 0.3) !important;
         transform: translateY(-2px) !important;
     }
     
-    button[data-testid="stBaseButton-primary"]:active,
-    button:not([data-testid="stBaseButton-secondary"]):active {
+    .stButton > button[data-testid="stBaseButton-primary"]:active {
         transform: translateY(0) !important;
         box-shadow: 0 2px 8px rgba(139, 111, 71, 0.2) !important;
     }
     
-    /* Secondary 按鈕樣式 - 灰色系（只針對 secondary 按鈕） */
-    button[data-testid="stBaseButton-secondary"] {
+    /* Secondary 按鈕樣式 - 灰色系（只針對 Streamlit 的 secondary 按鈕） */
+    .stButton > button[data-testid="stBaseButton-secondary"] {
         background-color: #6c757d !important;
         color: #ffffff !important;
         border: none !important;
@@ -348,13 +345,13 @@ st.markdown(
         box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
     }
     
-    button[data-testid="stBaseButton-secondary"]:hover {
+    .stButton > button[data-testid="stBaseButton-secondary"]:hover {
         background-color: #5a6268 !important;
         box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3) !important;
         transform: translateY(-2px) !important;
     }
     
-    button[data-testid="stBaseButton-secondary"]:active {
+    .stButton > button[data-testid="stBaseButton-secondary"]:active {
         transform: translateY(0) !important;
         box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2) !important;
     }
