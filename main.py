@@ -815,16 +815,25 @@ elif st.session_state.step == 3:
             )
 
             if st.session_state.start_date > date.today():
+                st.success(
+                    f"**到職日**：{st.session_state.start_date.strftime('%Y-%m-%d')}"
+                )
                 st.info(
-                    f"您的到職日 {st.session_state.start_date.strftime('%Y-%m-%d')} 尚未到來，到職後即可提出離職（預告期為 0 天）"
+                    f"您的到職日尚未到來，到職後即可提出離職（預告期為 0 天）"
                 )
             else:
                 # 計算預告天數
                 work_months = calculator._calculate_work_months(st.session_state.start_date)
                 notice_days = calculator._get_notice_days(work_months)
+                
                 st.success(
-                    f"**最早可以提離職的時間**：{effective_date.strftime('%Y-%m-%d')}  \n"
-                    f"**需要提前預告天數**：{notice_days} 天"
+                    f"**到職日**：{st.session_state.start_date.strftime('%Y-%m-%d')}"
+                )
+                
+                # 建議提辭呈時間區塊
+                st.info(
+                    f"**預告天數**：{notice_days} 天  \n"
+                    f"**建議提辭呈時間**：{effective_date.strftime('%Y-%m-%d')}前"
                 )
 
             # 三個按鈕：重返測驗、重計日期、結束視窗
@@ -868,9 +877,14 @@ elif st.session_state.step == 3:
                 if result["countdown"] > 0:
                     st.success(
                         f"**到職日**：{st.session_state.start_date.strftime('%Y-%m-%d')}  \n"
-                        f"**確定離職日**：{result['quit_date'].strftime('%Y-%m-%d')}  \n"
+                        f"**目標離職日**：{result['quit_date'].strftime('%Y-%m-%d')}  \n"
+                        f"**自由日倒數**：{result['countdown']} 天"
+                    )
+                    
+                    # 建議提辭呈時間區塊
+                    st.info(
                         f"**預告天數**：{result['notice_days']} 天  \n"
-                        f"**倒數天數**：{result['countdown']} 天"
+                        f"**建議提辭呈時間**：{result['notice_date'].strftime('%Y-%m-%d')}前"
                     )
 
                     animation_key = (

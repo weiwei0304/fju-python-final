@@ -1,4 +1,3 @@
-
 from quiz import tryQuiz
 
 print("我該離職嗎？\n")
